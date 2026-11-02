@@ -1,6 +1,7 @@
 {
   "name": "todo-list-mern",
   "private": true,
+  "type": "module",
   "description": "To-Do List app — React + Tailwind client, Express + MongoDB API",
   "scripts": {
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",

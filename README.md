@@ -40,7 +40,9 @@ Extras: onboarding screen, optimistic status toggles, weeks grouped in the **use
 │   │   ├── controllers/        thin HTTP handlers
 │   │   └── routes/
 │   └── netlify/functions/      Express wrapped as a Netlify Function
-└── netlify.toml                one deploy: static client + /api function
+├── api/index.js                Express exported as a Vercel Function
+├── vercel.json                 Vercel: static client + /api function
+└── netlify.toml                Netlify: static client + /api function
 ```
 
 ## API
@@ -72,6 +74,13 @@ npm run dev                          # API :5000 + web :5173
 ```
 
 Open http://localhost:5173 — Vite proxies `/api` to the Express server.
+
+## Deploy (Vercel, client + API together)
+
+1. Create a free MongoDB Atlas cluster and allow access from anywhere (`0.0.0.0/0`).
+2. On Vercel: **Add New → Project → Import** this GitHub repo. Keep the root directory as `./` — `vercel.json` sets the install/build commands, output dir and rewrites.
+3. Under **Environment Variables** add `MONGODB_URI` (and `NODE_ENV=production`).
+4. Deploy. The React app is served statically and `/api/*` is rewritten to `api/index.js`, which runs the same Express app as a Vercel Function.
 
 ## Deploy (Netlify, client + API together)
 
