@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+
+/* Design tokens taken from the Figma file */
+@theme {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #4566ec;
+  --color-brand-dark: #2a3ea8;
+  --color-brand-soft: #dfe4fb;
+  --color-brand-tint: #eef1fd;
+
+  --color-danger: #e45b5b;
+  --color-danger-tint: #fde9e9;
+
+  --color-ink: #1b1c22;
+  --color-muted: #8e8fa0;
+  --color-line: #e7e8ef;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+  input,
+  textarea,
+  button,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .field {
+    @apply w-full rounded-md border border-line bg-white px-3.5 py-3 text-sm text-ink outline-none transition
+      placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-brand/15;
+  }
+  .label {
+    @apply mb-1.5 block text-xs text-muted;
+  }
+  .btn-primary {
+    @apply w-full rounded-md bg-brand py-3.5 text-sm font-medium text-white transition
+      hover:bg-brand-dark active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+}
+
+/* Use our own icons on date/time inputs: the native picker trigger is stretched
+   invisibly over the whole field so tapping anywhere still opens the picker. */
+input[type='date'],
+input[type='time'] {
+  position: relative;
+}
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  cursor: pointer;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.animate-sheet-up {
+  animation: sheet-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
