@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import mongoose from 'mongoose';
 import env from '../config/env.js';
+import ApiError from '../utils/ApiError.js';
 
 export function notFound(req, res) {
   res.status(404).json({ error: { message: `Route not found: ${req.method} ${req.originalUrl}` } });
@@ -26,7 +27,8 @@ export function errorHandler(err, _req, res, _next) {
 
   res.status(status).json({
     error: {
-      message: status >= 500 && env.isProd ? 'Internal server error' : err.message,
+      // ApiErrors carry deliberate, safe messages; hide only unexpected 5xx details in production.
+      message: status >= 500 && env.isProd && !(err instanceof ApiError) ? 'Internal server error' : err.message,
       ...(err.details && { details: err.details }),
     },
   });
